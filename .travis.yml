@@ -5,7 +5,7 @@ language: c
 compiler: gcc
 env:
   global:
-    - PACKAGE=lirc
+    - PACKAGE=vcontrold
   matrix:
     - SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
     - SDK_URL=https://downloads.openwrt.org/barrier_breaker/14.07/kirkwood/generic/OpenWrt-SDK-kirkwood-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
