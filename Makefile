@@ -31,7 +31,7 @@ define Package/vcontrold
   SECTION:=utils
   CATEGORY:=Utilities
   DEPENDS:=+libxml2
-  TITLE:=vcontrold is a linux daemon for Vito communication
+  TITLE:=Daemon for Vito communication
   URL:=http://openv.wikispaces.com/vcontrold
 endef
 
