@@ -41,8 +41,8 @@ system using an Optolink adapter connected to a serial port.
 endef
 
 define Build/Prepare
-    $(call Build/Prepare/Default)
-    $(CP) ./files/* $(PKG_BUILD_DIR)/
+	$(call Build/Prepare/Default)
+	$(CP) ./files/* $(PKG_BUILD_DIR)/
 endef
 
 define Build/Configure
