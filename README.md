@@ -2,6 +2,8 @@ vcontrold-for-openwrt [![Build Status](https://travis-ci.org/probonopd/vcontrold
 =====================
 ![logo](https://cloud.githubusercontent.com/assets/2480569/5598426/71c87b16-92b6-11e4-9aef-ebc7b87d49fb.gif)
 
+Control Viessmann heating systems such as the Vitotronic 200 KW 2 from OpenWrt. I have successfully tested this on a D-Link DIR 505, but other systems with at least 8 MB flash ROM such as the TP-Link TL-WR710N should also be suitable.
+
 A daemon reading data coming from the control unit of a Vito heating system using an Optolink adapter connected to a serial port.
 
 See http://openv.wikispaces.com/vcontrold for more information.
