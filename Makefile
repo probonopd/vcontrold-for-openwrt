@@ -58,6 +58,11 @@ define Package/vcontrold/install
 	$(INSTALL_DIR) $(1)/etc/vcontrold
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/vcontrold/vcontrold.xml $(1)/etc/vcontrold/vcontrold_dev-id-2098.xml
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml-32/xml/*.{xml,ini} $(1)/etc/vcontrold/
+	
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/admin/
+	$(CP) $(PKG_INSTALL_DIR)/files/vclient.lua $(1)/usr/lib/lua/luci/controller/admin/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_heating/
+	$(CP) $(PKG_INSTALL_DIR)/files/vclient.htm $(1)/usr/lib/lua/luci/view/admin_heating/
 endef
 
 $(eval $(call BuildPackage,vcontrold))
