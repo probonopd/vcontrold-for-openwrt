@@ -19,7 +19,7 @@ To build, pull this repository into the ```package/``` subdirectory in the OpenW
 Using
 --
 
-First, you need to constuct a device that connects your OpenWrt system to your Viessmann heating system. You can build one from very inexpensive parts (under 10 EUR) yourself following the instructions [here](http://openv.wikispaces.com/Bauanleitung+3.3V+TTL).
+First, you need to constuct a device that connects your OpenWrt system to your Viessmann heating system called an Optolink adapter. You can build one from very inexpensive parts (under 10 EUR) yourself following the instructions [here](http://openv.wikispaces.com/Bauanleitung+3.3V+TTL).
 
 Next, you need to install the USB-to-serial adaptor driver on your OpenWrt system. For Prolific-based adapters like the PL2303HX used in the instructions, do
 ```
