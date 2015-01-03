@@ -23,8 +23,8 @@ First, you need to constuct a device that connects your OpenWrt system to your V
 
 * 1x SFH487-2 infrared LED
 * 1x SFH309FA infrared phototransistor
-* 1x 330 Ohm 1/4 W resistor
-* 3x 10k Ohm (for operation at 3V) or 15k Ohm (for operation at 5V) 1/4 W resistors
+* 1x 100 Ohm or 330 Ohm (for operation at 5V) 1/4 W resistor
+* 3x 10k Ohm (for operation at 3.3V) or 15k Ohm (for operation at 5V) 1/4 W resistors
 * 1x 2N3906 PNP transistor
 * 1x BC547A NPN transistor
 * 4x jumpers (computer)
