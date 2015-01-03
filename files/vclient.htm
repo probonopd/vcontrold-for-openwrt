@@ -53,7 +53,7 @@ local has_vcontrold = fs.access("/usr/bin/vclient")
 					else
 					{
 						legend.style.display = 'none';
-						output.innerHTML = '<span class="error"><%:Bad address specified!%></span>';
+						output.innerHTML = '<span class="error"><%:Could not communicate with vcontrold, is it running?%></span>';
 					}
 				}
 			);
