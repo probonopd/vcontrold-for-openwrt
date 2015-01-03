@@ -40,6 +40,11 @@ A daemon reading data coming from the control unit of a Vito heating
 system using an Optolink adapter connected to a serial port.
 endef
 
+define Build/Prepare
+    $(call Build/Prepare/Default)
+#    $(CP) ./files/* $(PKG_BUILD_DIR)/
+endef
+
 define Build/Configure
 	(cd $(PKG_BUILD_DIR)/vcontrold && aclocal && autoconf && touch NEWS README AUTHORS ChangeLog && automake --add-missing)
 	$(call Build/Configure/Default, \
