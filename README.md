@@ -36,6 +36,8 @@ Now, edit ```/etc/vcontrold/vcontrold.xml``` so that it uses the correct serial 
 
 Next, make sure that the correct device is selected, like ```<device ID="2098"/>``` of you have a Vitotronic 200 KW 2.
 
+__Imporant security note:__ If you do not want your heating system to be accessible from the entire LAN, make sure that you remove the line ```<allow ip='192.168.1.0/24'/>```.
+
 Now, do ```/etc/init.d/vcontrold disable``` and edit the ```/etc/init.d/vcontrold``` init script since the stock one is not working on OpenWrt (TODO: fix it):
 ```
 #!/bin/sh /etc/rc.common
