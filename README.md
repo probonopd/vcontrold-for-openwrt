@@ -86,4 +86,10 @@ GUI
 --
 
 There is a work-in-progress graphical user interface for OpenWrt. You can find it in the OpenWrt administration panel under "Heating".
+
 ![luci gui](https://cloud.githubusercontent.com/assets/2480569/5602366/785d50ae-9348-11e4-90fd-51525a9a1ad1.png)
+
+Help
+--
+
+Please file an issue if you would like to see functionality supported or have a question.
