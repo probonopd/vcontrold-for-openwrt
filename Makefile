@@ -58,7 +58,7 @@ define Package/vcontrold/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vcontrold/vcontrold $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vcontrold/vcontrold.initd.sh $(1)/etc/init.d/vcontrold
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vcontrold.initscript $(1)/etc/init.d/vcontrold
 
 	$(INSTALL_DIR) $(1)/etc/vcontrold
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/vcontrold/vcontrold.xml $(1)/etc/vcontrold/vcontrold_dev-id-2098.xml
