@@ -1,0 +1,177 @@
+<!--
+
+/usr/lib/lua/luci/view/admin_heating/vclient.htm
+
+Copyright 2015 Simon Peter
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+
+-->
+
+<%+header%>
+
+<%
+local fs   = require "nixio.fs"
+local has_vcontrold = fs.access("/usr/bin/vclient")
+%>
+
+<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
+<script type="text/javascript">//<![CDATA[
+	var stxhr = new XHR();
+
+	function update_status(field, proto)
+	{
+		var tool = field.name;
+		var addr = field.options[field.selectedIndex].value;
+                // alert (field.options[field.selectedIndex].value);
+		var protocol = proto ? "6" : "";
+
+		var legend = document.getElementById('diag-rc-legend');
+		var output = document.getElementById('diag-rc-output');
+
+		if (legend && output)
+		{
+			output.innerHTML =
+				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
+				'<%:Waiting for command to complete...%>'
+			;
+
+			legend.parentNode.style.display = 'block';
+			legend.style.display = 'inline';
+
+			stxhr.get('<%=luci.dispatcher.build_url("admin", "heating")%>/diag_' + tool + protocol + '/' + addr, null,
+				function(x)
+				{
+					if (x.responseText)
+					{
+						legend.style.display = 'none';
+						output.innerHTML = String.format('<pre>%h</pre>', x.responseText);
+					}
+					else
+					{
+						legend.style.display = 'none';
+						output.innerHTML = '<span class="error"><%:Bad address specified!%></span>';
+					}
+				}
+			);
+		}
+	}
+//]]></script>
+
+<form method="post" action="<%=pcdata(luci.http.getenv("REQUEST_URI"))%>">
+	<div class="cbi-map">
+		<!-- TODO: Do not hardcode this, but use the output of "vclient -h 127.0.0.1:3002 -c getDevType" instead-->
+		<h2><a id="content" name="content"><%:Vitotronic 200 KW 2%></a></h2>
+
+		<fieldset class="cbi-section">
+			<legend><%:Read values%></legend>
+
+			<br />
+
+			<div style="width:100%; float:left">
+				<!-- TODO: Do not hardcode this, but use the output of "vclient -h 127.0.0.1:3002 -c commands | grep ^get" instead-->
+				<select name="read" style="width:auto">
+					<option value="getTempA" selected="selected">Aussentemeratur in Grad C</option>
+					<option value="getTempWWist">Warmwassertemperatur in Grad C</option>
+					<option value="getTempWWsoll">Warmwassersolltemperatur in Grad C</option>
+					<option value="getTempKist">Kesseltemperatur in Grad C</option>
+					<option value="getTempKsoll">Kesselsolltemperatur in Grad C</option>
+					<option value="getTempVListM2">Vorlauftemperatur M2 in Grad C</option>
+					<option value="getTempVLsollM1">Vorlaufsolltemperatur M1 in Grad C</option>
+					<option value="getTempVLsollM2">Vorlaufsolltemperatur M2 in Grad C</option>
+					<option value="getTempVLsollM3">Vorlaufsolltemperatur M3 in Grad C</option>
+					<option value="getTempKol">Kollektortemperatur in Grad C</option>
+					<option value="getTempSpu">Speichertemperatur unten in Grad C</option>
+					<option value="getTempRaumNorSollM1">Raumsolltemperatur normal M1 in Grad C</option>
+					<option value="getTempRaumNorSollM2">Raumsolltemperatur normal M2 in Grad C</option>
+					<option value="getTempRaumRedSollM1">Raumsolltemperatur reduziert M1 in Grad C</option>
+					<option value="getTempRaumRedSollM2">Raumsolltemperatur reduziert M2 in Grad C</option>
+					<option value="getBrennerStatus">Brennerstatus</option>
+					<option value="getBrennerStarts">Brennerstarts</option>
+					<option value="getBrennerStunden1">Brennerstunden Stufe 1</option>
+					<option value="getBrennerStunden2">Brennerstunden Stufe 2</option>
+					<option value="getPumpeStatusM1">Status der Pumpe M1</option>
+					<option value="getPumpeStatusSp">Status der Speicherladepumpe</option>
+					<option value="getPumpeStatusZirku">Status der Zirkulationspumpe</option>
+					<option value="getPumpeStatusSolar">Status der Zirkulationspumpe Solar</option>
+					<option value="getPumpeStatusM2">Status der Pumpe M2</option>
+					<option value="getMischerM1">Mischerposition M1</option>
+					<option value="getMischerM2">Mischerposition M2</option>
+					<option value="getMischerM3">Mischerposition M3</option>
+					<option value="getSolarStatusWW">Status der Nachladeunterdrueckung</option>
+					<option value="getTimerM1Mo">Schaltzeit Montag M1</option>
+					<option value="getTimerM1Di">Schaltzeit Dienstag M1</option>
+					<option value="getTimerM1Mi">Schaltzeit MIttwoch M1</option>
+					<option value="getTimerM1Do">Schaltzeit Donnerstag M1</option>
+					<option value="getTimerM1Fr">Schaltzeit Freitag M1</option>
+					<option value="getTimerM1Sa">Schaltzeit Samstag M1</option>
+					<option value="getTimerM1So">Schaltzeit Sonntag M1</option>
+					<option value="getTimerM2Mo">Schaltzeit Montag M2</option>
+					<option value="getTimerM2Di">Schaltzeit Dienstag M2</option>
+					<option value="getTimerM2Mi">Schaltzeit Mittwoch M2</option>
+					<option value="getTimerM2Do">Schaltzeit Donnerstag M2</option>
+					<option value="getTimerM2Fr">Schaltzeit Freitag M2</option>
+					<option value="getTimerM2Sa">Schaltzeit Samstag M2</option>
+					<option value="getTimerM2So">Schaltzeit Sonntag M2</option>
+					<option value="getTimerWWMo">Schaltzeit Montag Warmwasser</option>
+					<option value="getTimerWWDi">Schaltzeit Dienstag Warmwasser</option>
+					<option value="getTimerWWMi">Schaltzeit Mittwoch Warmwasser</option>
+					<option value="getTimerWWDo">Schaltzeit Donnerstag Warmwasser</option>
+					<option value="getTimerWWFr">Schaltzeit Freitag Warmwasser</option>
+					<option value="getTimerWWSa">Schaltzeit Samstag Warmwasser</option>
+					<option value="getTimerWWSo">Schaltzeit Sonntag Warmwasser</option>
+					<option value="getTimerZirkuMo">Schaltzeit Montag Zirku</option>
+					<option value="getTimerZirkuDi">Schaltzeit Dienstag Zirku</option>
+					<option value="getTimerZirkuMi">Schaltzeit Mittwoch Zirku</option>
+					<option value="getTimerZirkuDo">Schaltzeit Donnerstag Zirku</option>
+					<option value="getTimerZirkuFr">Schaltzeit Freitag Zirku</option>
+					<option value="getTimerZirkuSa">Schaltzeit Samstag Zirku</option>
+					<option value="getTimerZirkuSo">Schaltzeit Sonntag Zirku</option>
+					<option value="getBetriebArtM1">Betriebsart M1</option>
+					<option value="getBetriebArtM2">Betriebsart M2</option>
+					<option value="getBetriebSparM1">Betriebsart Spar M1</option>
+					<option value="getBetriebSparM2">Betriebsart Spar M2</option>
+					<option value="getBetriebPartyM1">Betriebsart Party M1</option>
+					<option value="getBetriebPartyM2">Betriebsart Party M2</option>
+					<option value="getSolarStunden">Solar Betriebsstunden</option>
+					<option value="getSolarLeistung">Solar Leistung Gesamt</option>
+					<option value="getStatusFrostM1">Status Frostwarnung M1</option>
+					<option value="getStatusFrostM2">Status Frostwarnung M2</option>
+					<option value="getStatusStoerung">Status Sammelstoerung</option>
+					<option value="getTempPartyM1">Solltemperatur Partybetrieb M1</option>
+					<option value="getTempPartyM2">Solltemperatur Partybetrieb M2</option>
+					<option value="getSystemTime">Systemzeit</option>
+					<option value="getError0">Fehlerhistory Eintrag 1</option>
+					<option value="getError1">Fehlerhistory Eintrag 2</option>
+					<option value="getError2">Fehlerhistory Eintrag 3</option>
+					<option value="getError3">Fehlerhistory Eintrag 4</option>
+					<option value="getError4">Fehlerhistory Eintrag 5</option>
+					<option value="getError5">Fehlerhistory Eintrag 6</option>
+					<option value="getError6">Fehlerhistory Eintrag 7</option>
+					<option value="getError7">Fehlerhistory Eintrag 8</option>
+					<option value="getError8">Fehlerhistory Eintrag 9</option>
+					<option value="getError9">Fehlerhistory Eintrag 10</option>
+					<option value="getNeigungM1">Neigung Heizkennlinie M1</option>
+					<option value="getNeigungM2">Neigung Heizkennlinie M2</option>
+					<option value="getNiveauM1">Niveau Heizkennlinie M1</option>
+					<option value="getNiveauM2">Niveau Heizkennlinie M2</option>
+					<option value="getDevType">Device Typ der Anlage</option>
+				</select>
+				<input type="button" value="<%:Read%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.read)" />
+			</div>
+
+			<br style="clear:both" /><br />
+
+		</fieldset>
+	</div>
+
+	<fieldset class="cbi-section" style="display:none">
+		<legend id="diag-rc-legend"><%:Communicating...%></legend>
+		<span id="diag-rc-output"></span>
+	</fieldset>
+</form>
+
+<%+footer%>
