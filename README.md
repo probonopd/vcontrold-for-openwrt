@@ -23,7 +23,7 @@ First, you need to constuct a device that connects your OpenWrt system to your V
 
 ![opto_usb](https://cloud.githubusercontent.com/assets/2480569/5601516/441d5e36-9304-11e4-82c3-bec1304da5fc.png)
 
-Note that I used a 330 Ohm resistor instead of the 100 Ohm resistor in the picture; it is working for me. Also note that if you use 5V instead of 3.3V (some PL2303HX adaptors only have a 5V pin), then you should use three 15k Ohm resistors instead of the three 10k Ohm resistors (I have not verified this yet).
+Note that I used a 330 Ohm resistor instead of the 100 Ohm resistor in the picture; it is working for me. Also note that if you use 5V instead of 3.3V (some PL2303HX adaptors only have a 5V pin), then you should use three 15k Ohm resistors instead of the three 10k Ohm resistors in the picture (I have not verified this yet).
 
 Next, you need to install the USB-to-serial adaptor driver on your OpenWrt system. For Prolific-based adaptors like the PL2303HX used in the instructions, do
 ```
