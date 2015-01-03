@@ -3,6 +3,8 @@
 # /etc/init.d/vcontrold
 
 START=90
+STOP=10
+
 DAEMON=/usr/sbin/vcontrold
 
 start() {
