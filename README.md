@@ -21,6 +21,17 @@ Using
 
 First, you need to constuct a device that connects your OpenWrt system to your Viessmann heating system called an Optolink adapter. You can build one from very inexpensive parts (under 10 EUR) yourself following the instructions [here](http://openv.wikispaces.com/Bauanleitung+3.3V+TTL).
 
+* 1x SFH487-2 infrared LED
+* 1x SFH309FA infrared phototransistor
+* 1x 330 Ohm 1/4 W resistor
+* 3x 10k Ohm (for operation at 3V) or 15k Ohm (for operation at 5V) 1/4 W resistors
+* 1x 2N3906 PNP transistor
+* 1x BC547A NPN transistor
+* 4x jumpers (computer)
+* 1x 170 tie-point circuit test breadboard (eBay/China under 2 USD shipped)
+* 1x PL2303HX USB to RS232 TTL converter (most operate at 5V; eBay/China under 2 USD shipped)
+* Wires
+
 ![opto_usb](https://cloud.githubusercontent.com/assets/2480569/5601516/441d5e36-9304-11e4-82c3-bec1304da5fc.png)
 
 Note that I used a 330 Ohm resistor instead of the 100 Ohm resistor in the picture; it is working for me. Also note that if you use 5V instead of 3.3V (some PL2303HX adaptors only have a 5V pin), then you should use three 15k Ohm resistors instead of the three 10k Ohm resistors in the picture (I have not verified this yet).
