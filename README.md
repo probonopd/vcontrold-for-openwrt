@@ -13,3 +13,52 @@ Precompiled binaries for common architectures can be found on https://github.com
 Building
 --
 To build, pull this repository into the ```package/``` subdirectory in the OpenWrt SDK with ```git clone https://github.com/probonopd/vcontrold-for-openwrt.git```, then run ```./scripts/feeds update ; ./scripts/feeds install -d m libxml2``` and finally ```make V=s```. 
+
+Using
+--
+
+First, you need to constuct a device that connects your OpenWrt system to your Viessmann heating system. You can build one from very inexpensive parts (under 10 EUR) yourself following the instructions [here](http://openv.wikispaces.com/Bauanleitung+3.3V+TTL).
+
+Next, you need to install the USB-to-serial adaptor driver on your OpenWrt system. For Prolific-based adapters like the PL2303HX used in the instructions, do
+```
+opkg update
+opkg install kmod-usb-serial-pl2303
+```
+
+Now, edit ```/etc/vcontrold/vcontrold.xml``` so that it uses the correct serial port. If you have only one USB-to-serial adaptor connected to your OpenWrt system, this is usually ```/dev/ttyUSB0```:
+```
+        <serial>
+                <tty>/dev/ttyUSB0</tty>
+        </serial>
+```
+
+Next, make sure that the correct device is selected, like ```<device ID="2098"/>``` of you have a Vitotronic 200 KW 2.
+
+Now, do ```/etc/init.d/vcontrold disable``` and edit the ```/etc/init.d/vcontrold``` init script since the stock one is not working on OpenWrt (TODO: fix it):
+```
+#!/bin/sh /etc/rc.common
+
+START=90
+DAEMON=/usr/sbin/vcontrold
+
+start() {
+        service_start $DAEMON
+}
+
+stop() {
+        service_stop $DAEMON
+}
+```
+
+Afterwards restart vcontrold with
+```
+/etc/init.d/vcontrold enable
+/etc/init.d/vcontrold restart
+```
+
+Finally, you should be able to issue commands and get back responses from your Viessmann heating system:
+```
+root@OpenWrt:~# vclient -h 127.0.0.1:3002 -c getTempA
+getTempA:
+2.600000 Grad Celsius
+```
