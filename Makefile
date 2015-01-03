@@ -42,7 +42,7 @@ endef
 
 define Build/Prepare
     $(call Build/Prepare/Default)
-#    $(CP) ./files/* $(PKG_BUILD_DIR)/
+    $(CP) ./files/* $(PKG_BUILD_DIR)/
 endef
 
 define Build/Configure
@@ -65,9 +65,9 @@ define Package/vcontrold/install
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml-32/xml/*.{xml,ini} $(1)/etc/vcontrold/
 	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/admin/
-	$(CP) ./files/vclient.lua $(1)/usr/lib/lua/luci/controller/admin/
+	$(CP) $(PKG_BUILD_DIR)/vclient.lua $(1)/usr/lib/lua/luci/controller/admin/
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/admin_heating/
-	$(CP) $./files/vclient.htm $(1)/usr/lib/lua/luci/view/admin_heating/
+	$(CP) $(PKG_BUILD_DIR)/vclient.htm $(1)/usr/lib/lua/luci/view/admin_heating/
 endef
 
 $(eval $(call BuildPackage,vcontrold))
