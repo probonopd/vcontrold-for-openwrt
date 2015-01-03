@@ -53,27 +53,12 @@ Next, make sure that the correct device is selected, like ```<device ID="2098"/>
 
 __Imporant security note:__ If you do not want your heating system to be accessible from the entire LAN, make sure that you remove the line ```<allow ip='192.168.1.0/24'/>```.
 
-Now, do ```/etc/init.d/vcontrold disable``` and edit the ```/etc/init.d/vcontrold``` init script since the stock one is not working on OpenWrt (TODO: fix it):
-```
-#!/bin/sh /etc/rc.common
-
-START=90
-DAEMON=/usr/sbin/vcontrold
-
-start() {
-        service_start $DAEMON
-}
-
-stop() {
-        service_stop $DAEMON
-}
-```
-
-Afterwards restart vcontrold with
+Now, enable and start vcontrold with
 ```
 /etc/init.d/vcontrold enable
-/etc/init.d/vcontrold restart
+/etc/init.d/vcontrold start
 ```
+It will be started automatically on each boot.
 
 Finally, you should be able to issue commands and get back responses from your Viessmann heating system:
 ```
