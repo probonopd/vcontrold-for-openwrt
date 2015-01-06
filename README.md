@@ -2,7 +2,7 @@ vcontrold-for-openwrt [![Build Status](https://travis-ci.org/probonopd/vcontrold
 =====================
 ![Vitotronic 200 KW2](https://cloud.githubusercontent.com/assets/2480569/5601297/4ab09c20-92f7-11e4-9fd3-328e15ff4303.jpg) ![D-Link DIR 505](https://cloud.githubusercontent.com/assets/2480569/5601325/4f1c2a26-92f8-11e4-846a-ef47d5c96ae3.jpeg)
 
-Control Viessmann heating systems such as the Vitotronic 200 KW 2 from OpenWrt. I have successfully tested this on a D-Link DIR 505 running OpenWrt Barrier Breaker 14.07, but other systems with at least 8 MB flash ROM such as the TP-Link TL-WR710N should also be suitable.
+Control Viessmann heating systems such as the Vitotronic 200 KW2 from OpenWrt. I have successfully tested this on a D-Link DIR 505 running OpenWrt Barrier Breaker 14.07, but other systems with at least 8 MB flash ROM such as the TP-Link TL-WR710N should also be suitable.
 
 See http://openv.wikispaces.com/vcontrold for more information.
 
@@ -37,6 +37,10 @@ First, you need to constuct a device that connects your OpenWrt system to your V
 
 Note that I used a 330 Ohm resistor instead of the 100 Ohm resistor in the picture; it is working for me. Also note that if you use 5V instead of 3.3V (some PL2303HX adaptors only have a 5V pin), then you should use three 15k Ohm resistors instead of the three 10k Ohm resistors in the picture (I have not verified this yet).
 
+The whole electronics can be installed inside the original red cover of the Vitotronic 200 KW2, so that it becomes completely invisible:
+
+![3](https://cloud.githubusercontent.com/assets/2480569/5628244/d56e61c6-95a4-11e4-920e-d2d1d3ea9ee5.jpg)
+
 Next, you need to install the USB-to-serial adaptor driver on your OpenWrt system. For Prolific-based adaptors like the PL2303HX used in the instructions, do
 ```
 opkg update
@@ -50,7 +54,7 @@ Now, edit ```/etc/vcontrold/vcontrold.xml``` so that it uses the correct serial 
         </serial>
 ```
 
-Next, make sure that the correct device is selected, like ```<device ID="2098"/>``` of you have a Vitotronic 200 KW 2.
+Next, make sure that the correct device is selected, like ```<device ID="2098"/>``` of you have a Vitotronic 200 KW2.
 
 __Imporant security note:__ If you do not want your heating system to be accessible from the entire LAN, make sure that you remove the line ```<allow ip='192.168.1.0/24'/>```.
 
