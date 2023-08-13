@@ -18,6 +18,7 @@ PKG_SOURCE_PROTO:=git
 PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/version.mk
 include $(INCLUDE_DIR)/cmake.mk
 
 BUILD_DEPENDS:=+libxml2
