@@ -1,30 +1,33 @@
 name: Test
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
 
 jobs:
   build:
-    name: ${{ matrix.arch }} build
+    name: Build on ${{ matrix.version }} for ${{ matrix.arch }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch:
-          - x86_64
-          - mips_24kc
+        arch: [x86-64, mips_24kc]
+        version: [22.03.5]
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Build
-        uses: openwrt/gh-action-sdk@main
+      - name: Build ipk
+        uses: ttimasdf/gh-action-openwrt-build-package@master
         env:
-          ARCH: ${{ matrix.arch }}
+          ARCH: ${{ matrix.arch }}-${{ matrix.version }}
 
-      - name: Store packages
+      - name: Upload ipk packages
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.arch}}-packages
-          path: bin/packages/${{ matrix.arch }}/packages/*.ipk
+          name: ${{ matrix.arch }}-${{ matrix.version }}-package
+          # path: bin/packages/${{ matrix.arch }}/action/*.ipk
+          path: bin/packages/*/action/*.ipk
