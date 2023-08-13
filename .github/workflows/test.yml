@@ -8,26 +8,28 @@ on:
 
 jobs:
   build:
-    name: Build on ${{ matrix.version }} for ${{ matrix.arch }}
+    name: ${{ matrix.arch }} build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [x86-64, mips_24kc]
-        version: [22.03.5]
+        arch:
+          - x86_64
+          - mips_24kc
 
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Build ipk
-        uses: ttimasdf/gh-action-openwrt-build-package@master
+      - name: Build
+        uses: openwrt/gh-action-sdk@main
         env:
-          ARCH: ${{ matrix.arch }}-${{ matrix.version }}
+          V: True
+          NO_DEFAULT_FEEDS: True
+          ARCH: ${{ matrix.arch }}
 
-      - name: Upload ipk packages
+      - name: Store packages
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.arch }}-${{ matrix.version }}-package
-          # path: bin/packages/${{ matrix.arch }}/action/*.ipk
-          path: bin/packages/*/action/*.ipk
+          name: ${{ matrix.arch}}-packages
+          path: bin/packages/${{ matrix.arch }}/packages/*.ipk
