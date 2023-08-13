@@ -55,6 +55,8 @@ define Package/vcontrold/install
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml/300/*.xml $(1)/etc/vcontrold/300/
 	$(INSTALL_DIR) $(1)/etc/vcontrold/kw
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml/kw/*.xml $(1)/etc/vcontrold/kw/
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/vcontrold.uci $(1)/etc/config/vcontrold
 	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/admin/
 	$(CP) $(PKG_BUILD_DIR)/vclient.lua $(1)/usr/lib/lua/luci/controller/admin/
