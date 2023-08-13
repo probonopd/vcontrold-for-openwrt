@@ -47,7 +47,37 @@ opkg update
 opkg install kmod-usb-serial-pl2303
 ```
 
-Now, edit ```/etc/vcontrold/vcontrold.xml``` so that it uses the correct serial port. If you have only one USB-to-serial adaptor connected to your OpenWrt system, this is usually ```/dev/ttyUSB0```:
+ATTENTION!  
+vcontrold version >= 0.98.12  
+!!!
+--
+
+Configuration split 
+```
+/etc/vcontrold/kw/
+```
+and
+```
+/etc/vcontrold/300/
+```
+set protocol to 'kw' or '300'  
+default: 'kw'
+```
+uci set vcontrold.main.protocol='300'
+uci commit
+```
+you can also create a custom configuration
+```
+cd /etc/vcontrold
+cp -r kw/ custom
+uci set vcontrold.main.protocol='custom'
+uci commit
+```
+!!!
+--
+
+
+Now, edit ```/etc/vcontrold/[kw|300|custom]/vcontrold.xml``` so that it uses the correct serial port. If you have only one USB-to-serial adaptor connected to your OpenWrt system, this is usually ```/dev/ttyUSB0```:
 ```
         <serial>
                 <tty>/dev/ttyUSB0</tty>
