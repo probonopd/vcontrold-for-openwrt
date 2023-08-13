@@ -7,32 +7,29 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vcontrold
-
-PKG_REV:=106
-PKG_VERSION:=$(PKG_REV)
+PKG_VERSION:=0.98.12
+PKG_REV:=v$(PKG_VERSION)
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://svn.code.sf.net/p/vcontrold/code/trunk/
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/openv/$(PKG_NAME).git
 PKG_SOURCE_VERSION:=$(PKG_REV)
-PKG_SOURCE_PROTO:=svn
+PKG_SOURCE_PROTO:=git
 
 PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
-
-MAKE_PATH:=vcontrold
-CONFIGURE_PATH:=vcontrold
+include $(INCLUDE_DIR)/cmake.mk
 
 BUILD_DEPENDS:=+libxml2
+CMAKE_OPTIONS += -DMANPAGES=OFF
+CMAKE_BINARY_SUBDIR:=vcontrold
 
 define Package/vcontrold
   SECTION:=utils
   CATEGORY:=Utilities
   DEPENDS:=+libxml2
   TITLE:=Daemon for Vito communication
-  URL:=http://openv.wikispaces.com/vcontrold
+  URL:=https://github.com/openv/openv/wiki
 endef
 
 define Package/vcontrold/description
@@ -45,13 +42,6 @@ define Build/Prepare
 	$(CP) ./files/* $(PKG_BUILD_DIR)/
 endef
 
-define Build/Configure
-	(cd $(PKG_BUILD_DIR)/vcontrold && aclocal && autoconf && touch NEWS README AUTHORS ChangeLog && automake --add-missing)
-	$(call Build/Configure/Default, \
-		--with-xml2-include-dir=$(STAGING_DIR)/usr/include/libxml2 \
-	)
-endef
-
 define Package/vcontrold/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vcontrold/vclient $(1)/usr/bin/
@@ -61,8 +51,10 @@ define Package/vcontrold/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vcontrold.initscript $(1)/etc/init.d/vcontrold
 
 	$(INSTALL_DIR) $(1)/etc/vcontrold
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/vcontrold/vcontrold.xml $(1)/etc/vcontrold/vcontrold_dev-id-2098.xml
-	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml-32/xml/*.{xml,ini} $(1)/etc/vcontrold/
+	$(INSTALL_DIR) $(1)/etc/vcontrold/300
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml/300/*.xml $(1)/etc/vcontrold/300/
+	$(INSTALL_DIR) $(1)/etc/vcontrold/kw
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/xml/kw/*.xml $(1)/etc/vcontrold/kw/
 	
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller/admin/
 	$(CP) $(PKG_BUILD_DIR)/vclient.lua $(1)/usr/lib/lua/luci/controller/admin/
