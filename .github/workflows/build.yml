@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        sdk-url:
+          - https://downloads.openwrt.org/barrier_breaker/14.07/ixp4xx/generic/OpenWrt-SDK-ixp4xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+          - https://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/OpenWrt-SDK-ar71xx-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+          - https://downloads.openwrt.org/barrier_breaker/14.07/kirkwood/generic/OpenWrt-SDK-kirkwood-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+          - https://downloads.openwrt.org/barrier_breaker/14.07/lantiq/xway/OpenWrt-SDK-lantiq-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+          - https://downloads.openwrt.org/barrier_breaker/14.07/ramips/rt305x/OpenWrt-SDK-ramips-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+          - https://downloads.openwrt.org/barrier_breaker/14.07/atheros/generic/OpenWrt-SDK-atheros-for-linux-x86_64-gcc-4.8-linaro_uClibc-0.9.33.2.tar.bz2
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download SDK
+        run: |
+          mkdir -p $HOME/cache
+          mkdir -p $HOME/sdk
+          FILE=$(basename ${{ matrix.sdk-url }})
+          wget -c ${{ matrix.sdk-url }} -P $HOME/cache
+          tar xjf $HOME/cache/$FILE -C $HOME/sdk
+
+      - name: Build and Package
+        run: |
+          export PATH=$HOME/sdk/*/staging_dir/host/bin:$PATH
+          SDK_DIR=$(find $HOME/sdk -maxdepth 2 -type d -name "OpenWrt-SDK-*")
+          cd $SDK_DIR
+          mkdir -p package/$PACKAGE
+          ln -s $GITHUB_WORKSPACE/Makefile package/$PACKAGE/
+          ln -s $GITHUB_WORKSPACE/files package/$PACKAGE/
+          ./scripts/feeds update packages >/dev/null
+          ./scripts/feeds install -d m libxml2
+          make V=s
+          cp $(find $SDK_DIR/bin/ -type f -name "*controld_*.ipk") $GITHUB_WORKSPACE
+          ls -R $GITHUB_WORKSPACE
