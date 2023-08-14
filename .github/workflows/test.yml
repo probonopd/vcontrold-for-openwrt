@@ -25,7 +25,7 @@ jobs:
         uses: openwrt/gh-action-sdk@main
         env:
           V: sc
-          IGNORE_ERRORS: 1
+          KEY_BUILD: RWRCSwAAAADN9Fnb2CKF1ju+JDTGYAZc1EmhnyfPFo8sQrQMA0tFeiCF7+ahqemOvFU3yn8INwhgXwWhIcV7ggwZNQikf7t+wlyQFt8ysun9WY3H79epjNd0/qNXAcZ9z9TKeLCKFJI= 
           ARCH: ${{ matrix.arch }}
 
       - name: Store packages
