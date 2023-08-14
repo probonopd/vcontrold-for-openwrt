@@ -1,2 +1,0 @@
-config vcontrold main
-	option protocol 'kw'
