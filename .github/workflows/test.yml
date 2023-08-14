@@ -25,7 +25,7 @@ jobs:
         uses: openwrt/gh-action-sdk@main
         env:
           FEED_DIR: mypackages
-          V: True
+          V: sc
           NO_DEFAULT_FEEDS: True
           ARCH: ${{ matrix.arch }}
 
