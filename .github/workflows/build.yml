@@ -33,6 +33,7 @@ jobs:
 
       - name: Build and Package
         run: |
+          export PACKAGE=vcontrold
           export PATH=$HOME/sdk/*/staging_dir/host/bin:$PATH
           SDK_DIR=$(find $HOME/sdk -maxdepth 2 -type d -name "OpenWrt-SDK-*")
           cd $SDK_DIR
